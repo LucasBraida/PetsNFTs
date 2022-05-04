@@ -1,4 +1,4 @@
-const BASE_URI = "ipfs://QmTNtAECnnnPexn3jqcrF3B9objsNQPRonCYTHBsnrtZgm"
+const BASE_URI = "ipfs://QmP3r55rUGYFhuVHCaChBZsZpcJdGuDFadYBfQw18JqM3W"
 const TOKEN_NAME = "PetsNFT";
 const TOKEN_SYMBOL = "PETS";
 

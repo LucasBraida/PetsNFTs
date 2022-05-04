@@ -1,12 +1,11 @@
 const main = async () => {
-    const nftContractFactory = await hre.ethers.getContractFactory('MyEpicNFT');
-    const nftContract = await nftContractFactory.deploy();
+    const BASE_URI = "ipfs://QmP3r55rUGYFhuVHCaChBZsZpcJdGuDFadYBfQw18JqM3W"
+    const TOKEN_NAME = "PetsNFT";
+    const TOKEN_SYMBOL = "PETS";
+    const nftContractFactory = await hre.ethers.getContractFactory('PetsNFT');
+    const nftContract = await nftContractFactory.deploy(BASE_URI, TOKEN_NAME, TOKEN_SYMBOL, 10);
     await nftContract.deployed();
     console.log("Contract deployed to:", nftContract.address);
-    let txn = await nftContract.makeAnEpicNFT()
-    await txn.wait()
-    txn = await nftContract.makeAnEpicNFT()
-    await txn.wait()
 
     //txn = await nftContract.makeAnEpicNFT()
     //await txn.wait()
