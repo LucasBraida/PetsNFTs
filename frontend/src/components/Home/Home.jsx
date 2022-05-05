@@ -1,5 +1,4 @@
 import React from 'react'
-import ThreeDotsWave from '../ThreeDotsWave/ThreeDotsWave'
 import './Home.css'
 const Home = (props) => {
     return (
@@ -14,11 +13,6 @@ const Home = (props) => {
                     <button className="cta-button connect-wallet-button" onClick={props.connectWallet}>
                         Connect Wallet
                     </button>
-                    <button className="cta-button connect-wallet-button flex" onClick={props.connectWallet}>
-                        <ThreeDotsWave color='white' size='0.8rem' />
-                    </button>
-                    <div className='test'><ThreeDotsWave color='black' size='0.8rem' /></div>
-
 
                 </div>
             </div>

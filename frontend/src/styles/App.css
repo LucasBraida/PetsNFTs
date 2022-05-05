@@ -1,5 +1,10 @@
+* {
+  box-sizing: border-box;
+}
+
 .App {
   height: 100vh;
+
   background-color: #0d1116;
   overflow: scroll;
   text-align: center;
@@ -56,7 +61,7 @@
 
 .connect-wallet-button {
   background: -webkit-linear-gradient(left, #60c657, #35aee2);
-  background-size: 100% 100%;
+  background-size: 200% 200%;
   animation: gradient-animation 4s ease infinite;
 }
 
@@ -94,6 +99,15 @@
   font-size: 16px;
   font-weight: bold;
 }
+
+.flex {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+  align-self: center;
+}
+
 
 /* KeyFrames */
 @-webkit-keyframes gradient-animation {

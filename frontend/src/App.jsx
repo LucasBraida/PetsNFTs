@@ -3,6 +3,7 @@ import React, { useState } from "react"
 import { ethers } from "ethers"
 import abi from "./utils/PetsNFT.json"
 import Home from './components/Home/Home'
+import UserPage from './components/UserPage/UserPage'
 
 export default function App() {
   // Constants
@@ -101,29 +102,30 @@ export default function App() {
     <>
       {!currentAccount ?
       <Home connectWallet={connectWallet}/>
-      : <div className="App">
-      <div className="container">
-        <div className="header-container">
-          <p className="header gradient-text">My NFT Collection</p>
-          <p className="sub-text">
-            Each unique. Each beautiful. Discover your NFT today.
-          </p>
-          {currentAccount ?
-            <button className="cta-button connect-wallet-button" onClick={mintNFT}>
-              Mint your NFT
-            </button>
-            : <button className="cta-button connect-wallet-button" onClick={connectWallet}>
-              Connect to Wallet
-            </button>
-          }
-        </div>
-      </div>
-    </div>}
+      : <UserPage />}
     </>
 
   )
 }
 
+// <div className="App">
+//       <div className="container">
+//         <div className="header-container">
+//           <p className="header gradient-text">My NFT Collection</p>
+//           <p className="sub-text">
+//             Each unique. Each beautiful. Discover your NFT today.
+//           </p>
+//           {currentAccount ?
+//             <button className="cta-button connect-wallet-button" onClick={mintNFT}>
+//               Mint your NFT
+//             </button>
+//             : <button className="cta-button connect-wallet-button" onClick={connectWallet}>
+//               Connect to Wallet
+//             </button>
+//           }
+//         </div>
+//       </div>
+//     </div>
 
 
 
