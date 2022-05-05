@@ -1,9 +1,13 @@
 import React, {useState} from 'react'
 import ThreeDotsWave from '../ThreeDotsWave/ThreeDotsWave'
+import { motion } from 'framer-motion'
 //import './Home.css'
 const UserPage = (props) => {
     return (
-        <div className="App">
+        <motion.div
+        whileInView={{opacity: [0,0,1], y: [100,50,0]}}
+        transition={{duration: 0.5}}>
+            <div className="App">
             <div className="container">
                 <div className="header-container">
                     <h1 className="header gradient-text">Pets NFT Collection</h1>
@@ -22,6 +26,8 @@ const UserPage = (props) => {
                 </div>
             </div>
         </div>
+        </motion.div>
+
     )
 }
 
