@@ -4,6 +4,7 @@ import { ethers } from "ethers"
 import abi from "./utils/PetsNFT.json"
 import Home from './components/Home/Home'
 import UserPage from './components/UserPage/UserPage'
+import { motion } from 'framer-motion'
 
 export default function App() {
   // Constants
@@ -48,9 +49,10 @@ export default function App() {
   }
   const onNewMint = (address, tokenId) => {
     if (address.toUpperCase() === getCurrentAccount().toUpperCase()) {
-    console.log(address, tokenId.toNumber())
-    alert(`Hey there! We've minted your NFT and sent it to your wallet. It may be blank right now. It can take a max of 10 min to show up on OpenSea. Here's the link: https://testnets.opensea.io/assets/${contractAddress}/${tokenId.toNumber()}`)
-  }}
+      console.log(address, tokenId.toNumber())
+      alert(`Hey there! We've minted your NFT and sent it to your wallet. It may be blank right now. It can take a max of 10 min to show up on OpenSea. Here's the link: https://testnets.opensea.io/assets/${contractAddress}/${tokenId.toNumber()}`)
+    }
+  }
   const getContract = () => {
     let petsNFTContract
     try {
@@ -76,7 +78,7 @@ export default function App() {
 
   }
 
-  const mintNFT = async () =>{
+  const mintNFT = async () => {
     try {
       const { ethereum } = window
       if (ethereum) {
@@ -95,16 +97,32 @@ export default function App() {
     }
   }
 
-  React.useEffect(getContract,[])
+  React.useEffect(getContract, [])
 
 
   return (
-    <>
-      {!currentAccount ?
-      <Home connectWallet={connectWallet}/>
-      : <UserPage />}
-    </>
-
+    <div className='App'>
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: [0, 0, 1], y: [100, 50, 0] }}
+        transition={{ duration: 0.8, ease: 'easeInOut' }}
+        className="container">
+        <div className="header-container">
+          <h1 className="header gradient-text">Pets NFT Collection</h1>
+          <h2 className="sub-text">
+            My Pets. With silly phares. For fun.
+          </h2>
+          {!currentAccount ?
+            <>
+              <p className='p-text'>Connect a Wallet using the Rinkeby testnet to check yout NFTs or to mint a new one.</p>
+              <button className="cta-button connect-wallet-button" onClick={connectWallet}>
+                Connect Wallet
+              </button>
+            </>
+            : <UserPage />}
+        </div>
+      </motion.div>
+    </div>
   )
 }
 
