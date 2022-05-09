@@ -97,7 +97,7 @@ export default function App() {
     }
   }
 
-  React.useEffect(getContract, [])
+  //React.useEffect(getContract, [])
 
 
   return (
@@ -114,12 +114,12 @@ export default function App() {
           </h2>
           {!currentAccount ?
             <>
-              <p className='p-text'>Connect a Wallet using the Rinkeby testnet to check yout NFTs or to mint a new one.</p>
+              <p className='p-text'>Connect a Wallet using the Rinkeby testnet to check your NFTs or to mint a new one.</p>
               <button className="cta-button connect-wallet-button" onClick={connectWallet}>
                 Connect Wallet
               </button>
             </>
-            : <UserPage />}
+            : <UserPage currentAccount={currentAccount} getCurrentAccount={getCurrentAccount}/>}
         </div>
       </motion.div>
     </div>
