@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
+import image from '../../assets/sharknado.png'
 import './Gallery.css'
 const Gallery = (props) => {
     const [images, setImage] = useState([])
     const [jsonData, setJsonData] = useState([])
+    const [loaded, setLoaded] = useState(false)
     const pinataGateway = 'https://gateway.pinata.cloud/ipfs/'
     const ipfsIoGateway = 'https://ipfs.io/ipfs/'
 
@@ -10,7 +12,7 @@ const Gallery = (props) => {
         const imgOBJ = jsonData.map((src, index) => {
             return (
                 <div key = {index} className='gallery__item'>
-                    <img className='gallery__img' src={src}></img>
+                    <img className='gallery__img' src={src} placeHolder='../../assets/sharknado.png'></img>
                 </div>
             )
         })
@@ -38,7 +40,11 @@ const Gallery = (props) => {
             }}>Get Token URI</button>
             <div className='gallery'>
                 <div className='gallery__item'>
-                    <img className='gallery__img' src='https://gateway.pinata.cloud/ipfs/QmRafV2oB9UzSBjWBqcEcnpZhDjAcX1uLAAMBACQBSsMw8/5.jpg' ></img>
+                    <img className='gallery__img' src={image} style={!loaded? {} : {display: 'none'}}></img>
+                    <img className='gallery__img' 
+                    src='https://ipfs.io/ipfs/QmRafV2oB9UzSBjWBqcEcnpZhDjAcX1uLAAMBACQBSsMw8/4.jpg' 
+                    style={loaded? {} : {display: 'none'}}
+                    onLoad={() => setLoaded(true)}></img>
                 </div>
                 {images.length > 0 ? images : <h1>No nfts</h1>}
             </div>
