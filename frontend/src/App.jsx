@@ -11,7 +11,7 @@ export default function App() {
 
   const TOTAL_MINT_COUNT = 50
   const [currentAccount, setCurrentAccount] = useState()
-  const [contract, setContract] = useState()
+  const [contract, setContract] = useState(null)
   const contractAddress = "0x3d2e1Dc9F73B670c8EB8C6Ba1e41a277a8b30d8a"
   const contractABI = abi.abi
 
@@ -25,6 +25,9 @@ export default function App() {
       }
 
       const accounts = await ethereum.request({ method: "eth_requestAccounts" });
+      getContract()
+      console.log('contract')
+      console.log(contract)
       setCurrentAccount(accounts[0])
     } catch (error) {
       console.log(error)
@@ -78,6 +81,7 @@ export default function App() {
 
   }
 
+
   const mintNFT = async () => {
     try {
       const { ethereum } = window
@@ -119,7 +123,7 @@ export default function App() {
                 Connect Wallet
               </button>
             </>
-            : <UserPage currentAccount={currentAccount} getCurrentAccount={getCurrentAccount}/>}
+            : <UserPage currentAccount={currentAccount} getCurrentAccount={getCurrentAccount} contract={contract}/>}
         </div>
       </motion.div>
     </div>

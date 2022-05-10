@@ -10,9 +10,10 @@ import Gallery from '../Gallery/Gallery'
 const UserPage = (props) => {
     const contractAddress = "0x3d2e1Dc9F73B670c8EB8C6Ba1e41a277a8b30d8a"
     const contractABI = abi.abi
-    const [contract, setContract] = useState({})
+    const [contract, setContract] = useState(null)
     const [mintWaiting, setMintWaiting] = useState(false)
-    const [mintNumAvailable, setMintNumAvailable] = useState()
+    const [mintNumAvailable, setMintNumAvailable] = useState(100000000)
+    const [images, setImage] = useState(null)
 
     //Function to make sure the current connected account is being used
     //This ensures that, even if the user changes the account in theis wallet, the application will use the current account
@@ -119,6 +120,30 @@ const UserPage = (props) => {
             }
         }
     }, [])
+  //   useEffect(() => {
+  //     const currentAccount = props.getCurrentAccount()
+  //     let userTokens
+  //     props.contract.getOwnersTokens(currentAccount).then(resp => {userTokens=resp})
+  //     console.log(userTokens)
+
+  //     console.log(userTokens)
+  //     if (userTokens) {
+  //         let tempNFTs
+  //         userTokens.forEach(token => {
+  //             const uri = props.contract.tokenURI(token)
+  //             const ipfsFilePath = ipfsIoGateway + uri.split('//')[1]
+  //             fetch(ipfsFilePath)
+  //                 .then(response => response.json())
+  //                 .then(data => {
+  //                     const ipfsImage = ipfsIoGateway + data.image.split('//')[1]
+  //                     tempNFTs.push(<GalleryItem key={token} src={ipfsImage} name={data.name} description={data.description} />)
+  //                 })
+  //         })
+  //         setImage(tempNFTs)
+  //     } else {
+  //         console.log('No tokens')
+  //     }
+  // }, [])
 
     return (
         <div className='userpage'>
@@ -140,7 +165,7 @@ const UserPage = (props) => {
                     <h1 className="header gradient-text">We are Sold out. Sorry!</h1>
                 </motion.div>
             }
-            <Gallery contract={contract} getCurrentAccount={getCurrentAccount}/>
+            {contract && <Gallery contract={contract} getCurrentAccount={getCurrentAccount}/>}
         </div>
 
     )
