@@ -1,174 +1,168 @@
 import React, { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { motion, Tilt_container } from 'framer-motion'
 import { ethers } from "ethers"
+import Tilt from 'react-parallax-tilt'
 import './UserPage.css'
 import ThreeDotsWave from '../ThreeDotsWave/ThreeDotsWave'
 import { MotionWrap } from '../wrapper'
 import abi from '../../utils/PetsNFT.json'
 import Gallery from '../Gallery/Gallery'
+import { containerVariant, variantItem } from '../../variants/variants'
 //import './Home.css'
 const UserPage = (props) => {
-    const contractAddress = "0x3d2e1Dc9F73B670c8EB8C6Ba1e41a277a8b30d8a"
-    const contractABI = abi.abi
-    const [contract, setContract] = useState(null)
-    const [mintWaiting, setMintWaiting] = useState(false)
-    const [mintNumAvailable, setMintNumAvailable] = useState(100000000)
-    const [images, setImage] = useState(null)
+  const contractAddress = "0x3d2e1Dc9F73B670c8EB8C6Ba1e41a277a8b30d8a"
+  const contractABI = abi.abi
+  const [contract, setContract] = useState(null)
+  const [mintWaiting, setMintWaiting] = useState(false)
+  const [mintNumAvailable, setMintNumAvailable] = useState()
+  const [userNFT, setUserNFT] = useState(null)
+  const ipfsIoGateway = 'https://ipfs.io/ipfs/'
 
-    //Function to make sure the current connected account is being used
-    //This ensures that, even if the user changes the account in theis wallet, the application will use the current account
-    const getCurrentAccount = async () => {
+  //Function to make sure the current connected account is being used
+  //This ensures that, even if the user changes the account in theis wallet, the application will use the current account
+  const getCurrentAccount = async () => {
 
-        try {
-            const { ethereum } = window
+    try {
+      const { ethereum } = window
 
-            const accounts = await ethereum.request({ method: "eth_accounts" })
-            if (accounts.length !== 0) {
-                return accounts[0]
-            } else {
-                console.log("No accounts there")
-            }
-        } catch (error) {
-            console.log(error)
-        }
+      const accounts = await ethereum.request({ method: "eth_accounts" })
+      if (accounts.length !== 0) {
+        return accounts[0]
+      } else {
+        console.log("No accounts there")
+      }
+    } catch (error) {
+      console.log(error)
+    }
+    return null
+  }
+
+  const onNewMint = async (address, tokenId) => {
+    getMintNumAvailable()
+    const currentAccount = await getCurrentAccount()
+    if (address.toUpperCase() === currentAccount.toUpperCase()) {
+      console.log(address, tokenId.toNumber())
+      alert(`Hey there! We've minted your NFT and sent it to your wallet. It may be blank right now. It can take a max of 10 min to show up on OpenSea. Here's the link: https://testnets.opensea.io/assets/${contractAddress}/${tokenId.toNumber()}`)
+    }
+  }
+  const getContract = () => {
+    try {
+      const { ethereum } = window
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum)
+        const signer = provider.getSigner()
+        const petsNFTContract = new ethers.Contract(contractAddress, contractABI, signer)
+        setContract(petsNFTContract)
+        return petsNFTContract
+      } else {
+        console.log("No wallet found")
         return null
+      }
+    } catch (error) {
+      console.log(error)
+      return null
+    }
+  }
+
+  const getMintNumAvailable = async () => {
+    const cont = getContract()
+    const numAv = await cont.getNumberOfAvailableTokens()
+    setMintNumAvailable(numAv.toNumber())
+    return numAv
+  }
+
+  const fetchUserNFTs = async () => {
+    const currentAccount = await getCurrentAccount()
+    const contract = getContract()
+    const userTokens = await contract.getOwnersTokens(currentAccount)
+    if (userTokens) {
+      let tempNFTs = []
+      for (let i = 0; i < userTokens.length; i++) {
+        const uri = await contract.tokenURI(userTokens[i].toNumber())
+        const ipfsFilePath = ipfsIoGateway + uri.split('//')[1]
+        await fetch(ipfsFilePath)
+          .then(response => response.json())
+          .then(data => {
+            const ipfsImage = ipfsIoGateway + data.image.split('//')[1]
+            tempNFTs.push({ src: ipfsImage, name: data.name, description: data.description, token: userTokens[i] })
+          })
+      }
+      setUserNFT(tempNFTs)
+    } else {
+      console.log('No tokens')
+    }
+  }
+
+  const mintNFT = async () => {
+    try {
+      const { ethereum } = window
+      if (ethereum) {
+        let mint = await contract.mintNFT()
+        setMintWaiting(true)
+        await mint.wait()
+        setMintWaiting(false)
+
+      } else {
+        console.log("No wallet found")
+      }
+    } catch (error) {
+      console.log(error)
+      setMintWaiting(false)
+    }
+  }
+
+  useEffect(() => {
+    const petsNFTContract = getContract()
+    petsNFTContract.on("NewTokenMinted", onNewMint)
+    getMintNumAvailable()
+    fetchUserNFTs()
+    return () => {
+      if (petsNFTContract) {
+        petsNFTContract.off("NewTokenMinted", onNewMint)
+      }
     }
 
-    const onNewMint = async (address, tokenId) => {
-        getMintNumAvailable()
-        const currentAccount = await getCurrentAccount()
-        if (address.toUpperCase() === currentAccount.toUpperCase()) {
-            console.log(address, tokenId.toNumber())
-            alert(`Hey there! We've minted your NFT and sent it to your wallet. It may be blank right now. It can take a max of 10 min to show up on OpenSea. Here's the link: https://testnets.opensea.io/assets/${contractAddress}/${tokenId.toNumber()}`)
-        }
-    }
-    const getContract = () => {
-        try {
-            const { ethereum } = window
-            if (ethereum) {
-                const provider = new ethers.providers.Web3Provider(ethereum)
-                const signer = provider.getSigner()
-                const petsNFTContract = new ethers.Contract(contractAddress, contractABI, signer)
-                setContract(petsNFTContract)
-                return petsNFTContract
-            } else {
-                console.log("No wallet found")
-                return null
+  }, [])
+
+  return (
+    <motion.div className='userpage'
+      variants={containerVariant}
+      initial='hidden'
+      animate='show'>
+      <motion.div variants={variantItem}>
+        {mintNumAvailable ?
+          <motion.div
+            variants={variantItem}>
+            <h3 className='sub-text'>NFTs Available: {mintNumAvailable}/10</h3>
+            {mintWaiting ?
+              <div className="cta-button connect-wallet-button flex userpage__loading">
+                <ThreeDotsWave size='0.7rem' />
+              </div>
+              : <button className="cta-button connect-wallet-button" onClick={() => setMintNumAvailable(0)}>
+                Mint NFT
+              </button>
             }
-        } catch (error) {
-            console.log(error)
-            return null
+
+          </motion.div>
+          :
+          <>
+            {(mintNumAvailable === 0) && <motion.div
+              variants={variantItem}>
+              <h1 className="header gradient-text">We are Sold out. Sorry!</h1>
+            </motion.div>}
+          </>
         }
-    }
+      </motion.div>
+      <Tilt className='tilt_test' tiltMaxAngleX={10} tiltMaxAngleY={10}>
+        Teste
+      </Tilt>
+      <motion.div className='flex' style={{ width: '100%' }} variants={containerVariant}>
+        {(userNFT) && <Gallery contract={contract} getCurrentAccount={getCurrentAccount} data={userNFT} />}
+      </motion.div>
 
-    const getMintNumAvailable = async () => {
-        const cont = getContract()
-        const numAv = await cont.getNumberOfAvailableTokens()
-        setMintNumAvailable(numAv.toNumber())
-        return numAv
-    }
-    // const getContract = () => {
-    //     let petsNFTContract
-    //     try {
-    //         const { ethereum } = window
-    //         if (ethereum) {
-    //             const provider = new ethers.providers.Web3Provider(ethereum)
-    //             const signer = provider.getSigner()
-    //             petsNFTContract = new ethers.Contract(contractAddress, contractABI, signer)
-    //             setContract(petsNFTContract)
-    //             setMintNumAvailable(await petsNFTContract.getNumberOfAvailableTokens())
-    //             petsNFTContract.on("NewTokenMinted", onNewMint);
-    //         } else {
-    //             console.log("No wallet found")
-    //         }
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    //     return () => {
-    //         if (petsNFTContract) {
-    //             petsNFTContract.off("NewTokenMinted", onNewMint)
-    //         }
-    //     };
+    </motion.div>
 
-
-    // }
-    const mintNFT = async () => {
-        try {
-            const { ethereum } = window
-            if (ethereum) {
-                let mint = await contract.mintNFT()
-                setMintWaiting(true)
-                await mint.wait()
-                setMintWaiting(false)
-
-            } else {
-                console.log("No wallet found")
-            }
-        } catch (error) {
-            console.log(error)
-            setMintWaiting(false)
-        }
-    }
-
-    useEffect(() => {
-        const petsNFTContract = getContract()
-        petsNFTContract.on("NewTokenMinted", onNewMint)
-        getMintNumAvailable()
-        return () => {
-            if (petsNFTContract) {
-                petsNFTContract.off("NewTokenMinted", onNewMint)
-            }
-        }
-    }, [])
-  //   useEffect(() => {
-  //     const currentAccount = props.getCurrentAccount()
-  //     let userTokens
-  //     props.contract.getOwnersTokens(currentAccount).then(resp => {userTokens=resp})
-  //     console.log(userTokens)
-
-  //     console.log(userTokens)
-  //     if (userTokens) {
-  //         let tempNFTs
-  //         userTokens.forEach(token => {
-  //             const uri = props.contract.tokenURI(token)
-  //             const ipfsFilePath = ipfsIoGateway + uri.split('//')[1]
-  //             fetch(ipfsFilePath)
-  //                 .then(response => response.json())
-  //                 .then(data => {
-  //                     const ipfsImage = ipfsIoGateway + data.image.split('//')[1]
-  //                     tempNFTs.push(<GalleryItem key={token} src={ipfsImage} name={data.name} description={data.description} />)
-  //                 })
-  //         })
-  //         setImage(tempNFTs)
-  //     } else {
-  //         console.log('No tokens')
-  //     }
-  // }, [])
-
-    return (
-        <div className='userpage'>
-            {mintNumAvailable > 0 ? <>
-                <h3 className='sub-text'>NFTs Available: {mintNumAvailable}/10</h3>
-                {mintWaiting ?
-                    <div className="cta-button connect-wallet-button flex userpage__loading">
-                        <ThreeDotsWave size='0.7rem' />
-                    </div>
-                    : <button className="cta-button connect-wallet-button" onClick={() => setMintNumAvailable(0)}>
-                        Mint NFT
-                    </button>
-                }
-            </> :
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: [0, 0, 1], y: [100, 50, 0] }}
-                    transition={{ duration: 0.8, ease: 'easeInOut' }}>
-                    <h1 className="header gradient-text">We are Sold out. Sorry!</h1>
-                </motion.div>
-            }
-            {contract && <Gallery contract={contract} getCurrentAccount={getCurrentAccount}/>}
-        </div>
-
-    )
+  )
 }
 
 export default MotionWrap(UserPage)

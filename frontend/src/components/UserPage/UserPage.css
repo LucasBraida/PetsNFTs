@@ -27,3 +27,9 @@
 .userpage__loading{
     cursor: none;
 }
+
+.tilt_test{
+    width: 300px;
+    height: 300px;
+    background-color: aliceblue;
+}
