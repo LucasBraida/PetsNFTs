@@ -9,11 +9,9 @@ import { motion } from 'framer-motion'
 export default function App() {
   // Constants
 
-  const TOTAL_MINT_COUNT = 50
   const [currentAccount, setCurrentAccount] = useState()
   const [contract, setContract] = useState(null)
-  const contractAddress = "0x3d2e1Dc9F73B670c8EB8C6Ba1e41a277a8b30d8a"
-  const contractABI = abi.abi
+
 
   const connectWallet = async () => {
     try {
@@ -25,9 +23,6 @@ export default function App() {
       }
 
       const accounts = await ethereum.request({ method: "eth_requestAccounts" });
-      getContract()
-      console.log('contract')
-      console.log(contract)
       setCurrentAccount(accounts[0])
     } catch (error) {
       console.log(error)
@@ -50,58 +45,7 @@ export default function App() {
     }
     return null
   }
-  const onNewMint = (address, tokenId) => {
-    if (address.toUpperCase() === getCurrentAccount().toUpperCase()) {
-      console.log(address, tokenId.toNumber())
-      alert(`Hey there! We've minted your NFT and sent it to your wallet. It may be blank right now. It can take a max of 10 min to show up on OpenSea. Here's the link: https://testnets.opensea.io/assets/${contractAddress}/${tokenId.toNumber()}`)
-    }
-  }
-  const getContract = () => {
-    let petsNFTContract
-    try {
-      const { ethereum } = window
-      if (ethereum) {
-        const provider = new ethers.providers.Web3Provider(ethereum)
-        const signer = provider.getSigner()
-        petsNFTContract = new ethers.Contract(contractAddress, contractABI, signer)
-        setContract(petsNFTContract)
-        petsNFTContract.on("NewTokenMinted", onNewMint);
-      } else {
-        console.log("No wallet found")
-      }
-    } catch (error) {
-      console.log(error)
-    }
-    return () => {
-      if (petsNFTContract) {
-        petsNFTContract.off("NewTokenMinted", onNewMint)
-      }
-    };
 
-
-  }
-
-
-  const mintNFT = async () => {
-    try {
-      const { ethereum } = window
-      if (ethereum) {
-        //const provider = new ethers.providers.Web3Provider(ethereum)
-        //const signer = provider.getSigner()
-        //const epicNFTContract = new ethers.Contract(contractAddress, contractABI, signer)
-        //setContract(epicNFTContract)
-        let mint = await contract.mintNFT()
-        await mint.wait()
-
-      } else {
-        console.log("No wallet found")
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  //React.useEffect(getContract, [])
 
 
   return (
@@ -116,39 +60,19 @@ export default function App() {
           <h2 className="sub-text">
             My Pets. With silly phares. For fun.
           </h2>
-          {!currentAccount ?
-            <>
-              <p className='p-text'>Connect a Wallet using the Rinkeby testnet to check your NFTs or to mint a new one.</p>
-              <button className="cta-button connect-wallet-button" onClick={connectWallet}>
-                Connect Wallet
-              </button>
-            </>
-            : <UserPage currentAccount={currentAccount} getCurrentAccount={getCurrentAccount} contract={contract}/>}
         </div>
+        {!currentAccount ?
+          <>
+            <p className='p-text'>Connect a Wallet using the Rinkeby testnet to check your NFTs or to mint a new one.</p>
+            <button className="cta-button connect-wallet-button button_hover" onClick={connectWallet}>
+              Connect Wallet
+            </button>
+          </>
+          : <UserPage currentAccount={currentAccount} getCurrentAccount={getCurrentAccount}  />}
+
       </motion.div>
     </div>
   )
 }
-
-// <div className="App">
-//       <div className="container">
-//         <div className="header-container">
-//           <p className="header gradient-text">My NFT Collection</p>
-//           <p className="sub-text">
-//             Each unique. Each beautiful. Discover your NFT today.
-//           </p>
-//           {currentAccount ?
-//             <button className="cta-button connect-wallet-button" onClick={mintNFT}>
-//               Mint your NFT
-//             </button>
-//             : <button className="cta-button connect-wallet-button" onClick={connectWallet}>
-//               Connect to Wallet
-//             </button>
-//           }
-//         </div>
-//       </div>
-//     </div>
-
-
 
 

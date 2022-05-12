@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { motion, Tilt_container } from 'framer-motion'
 import { ethers } from "ethers"
-import Tilt from 'react-parallax-tilt'
+import {VscRefresh} from 'react-icons/vsc'
 import './UserPage.css'
 import ThreeDotsWave from '../ThreeDotsWave/ThreeDotsWave'
 import { MotionWrap } from '../wrapper'
@@ -43,6 +43,7 @@ const UserPage = (props) => {
     if (address.toUpperCase() === currentAccount.toUpperCase()) {
       console.log(address, tokenId.toNumber())
       alert(`Hey there! We've minted your NFT and sent it to your wallet. It may be blank right now. It can take a max of 10 min to show up on OpenSea. Here's the link: https://testnets.opensea.io/assets/${contractAddress}/${tokenId.toNumber()}`)
+      fetchUserNFTs()
     }
   }
   const getContract = () => {
@@ -129,16 +130,16 @@ const UserPage = (props) => {
       variants={containerVariant}
       initial='hidden'
       animate='show'>
-      <motion.div variants={variantItem}>
+      {/* <motion.div variants={variantItem}> */}
         {mintNumAvailable ?
           <motion.div
             variants={variantItem}>
-            <h3 className='sub-text'>NFTs Available: {mintNumAvailable}/10</h3>
+            <h3 className='sub-text gallery__available'>NFTs Available: {mintNumAvailable}/10</h3>
             {mintWaiting ?
-              <div className="cta-button connect-wallet-button flex userpage__loading">
+              <div className="cta-button connect-wallet-button button_hover flex userpage__loading">
                 <ThreeDotsWave size='0.7rem' />
               </div>
-              : <button className="cta-button connect-wallet-button" onClick={() => setMintNumAvailable(0)}>
+              : <button className="cta-button connect-wallet-button button_hover" onClick={mintNFT}>
                 Mint NFT
               </button>
             }
@@ -152,20 +153,20 @@ const UserPage = (props) => {
             </motion.div>}
           </>
         }
-      </motion.div>
-      <Tilt className='tilt_test' tiltMaxAngleX={10} tiltMaxAngleY={10}>
-        Teste
-      </Tilt>
+      {/* </motion.div> */}
+
       <motion.div className='flex' style={{ width: '100%' }} variants={containerVariant}>
         {(userNFT) && <Gallery contract={contract} getCurrentAccount={getCurrentAccount} data={userNFT} />}
       </motion.div>
-
+      <motion.button variants={variantItem} className='userpage__refresh button_hover' onClick={fetchUserNFTs}>
+        <VscRefresh />
+      </motion.button>
     </motion.div>
 
   )
 }
 
-export default MotionWrap(UserPage)
+export default UserPage
 
 /*
   const [currentAccount, setCurrentAccount] = useState()

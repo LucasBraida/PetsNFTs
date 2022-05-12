@@ -22,18 +22,29 @@ const Gallery = (props) => {
             animate='show'
             className='gallery'
         >
+
             {(props.data.length > 0) ?
                 // <motion.div
                 //     variants={containerVariant}
                 // >
                 <>
                     {props.data.map(nft => (
-                        <GalleryItem key={nft.token} src={nft.src} name={nft.name} description={nft.description} />
+                        <motion.div key={nft.token}
+                            variants={containerVariant}
+                            initial='hidden'
+                            animate='show'>
+                            <GalleryItem src={nft.src} name={nft.name} description={nft.description} />
+                        </motion.div>
+
                     ))}
                 </>
 
-                // </motion.div>
-                : <motion.h2 className="sub-text gallery__soldout">Your gallery is empty</motion.h2>}
+                //    </motion.div>
+                : <motion.h2
+                    variants={containerVariant}
+                    initial='hidden'
+                    animate='show'
+                    className="sub-text gallery__soldout">Your gallery is empty</motion.h2>}
 
         </motion.div>
 
