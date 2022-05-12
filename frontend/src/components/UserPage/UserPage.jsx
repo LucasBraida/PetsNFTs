@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { motion, Tilt_container } from 'framer-motion'
 import { ethers } from "ethers"
 import {VscRefresh} from 'react-icons/vsc'
+import ReactLoading from 'react-loading';
+import Spinner from '../Spinner/index'
 import './UserPage.css'
 import ThreeDotsWave from '../ThreeDotsWave/ThreeDotsWave'
 import { MotionWrap } from '../wrapper'
@@ -130,6 +132,11 @@ const UserPage = (props) => {
       variants={containerVariant}
       initial='hidden'
       animate='show'>
+        <div style={{width:'300px', heigth:'300px'}}>
+        <Spinner color1="blue" color2="#fff" text='' textColor="none" />
+        </div>
+
+        <ReactLoading type='spinningBubbles' color='white' height={667} width={375} delay={300} />
       {/* <motion.div variants={variantItem}> */}
         {mintNumAvailable ?
           <motion.div
