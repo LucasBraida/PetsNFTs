@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { motion, Tilt_container } from 'framer-motion'
 import { ethers } from "ethers"
-import {VscRefresh} from 'react-icons/vsc'
-import ReactLoading from 'react-loading';
-import Spinner from '../Spinner/index'
+import { VscRefresh } from 'react-icons/vsc'
+import ReactTooltip from 'react-tooltip'
+import Spinner from '../Spinner/Spinner'
 import './UserPage.css'
 import ThreeDotsWave from '../ThreeDotsWave/ThreeDotsWave'
 import { MotionWrap } from '../wrapper'
@@ -18,6 +18,7 @@ const UserPage = (props) => {
   const [mintWaiting, setMintWaiting] = useState(false)
   const [mintNumAvailable, setMintNumAvailable] = useState()
   const [userNFT, setUserNFT] = useState(null)
+  const [fetchNFTLoading, setFetchNFTLoading] = useState(false)
   const ipfsIoGateway = 'https://ipfs.io/ipfs/'
 
   //Function to make sure the current connected account is being used
@@ -75,6 +76,7 @@ const UserPage = (props) => {
   }
 
   const fetchUserNFTs = async () => {
+    setFetchNFTLoading(true)
     const currentAccount = await getCurrentAccount()
     const contract = getContract()
     const userTokens = await contract.getOwnersTokens(currentAccount)
@@ -91,6 +93,7 @@ const UserPage = (props) => {
           })
       }
       setUserNFT(tempNFTs)
+      setFetchNFTLoading(false)
     } else {
       console.log('No tokens')
     }
@@ -132,12 +135,7 @@ const UserPage = (props) => {
       variants={containerVariant}
       initial='hidden'
       animate='show'>
-        <div style={{width:'300px', heigth:'300px'}}>
-        <Spinner color1="blue" color2="#fff" text='' textColor="none" />
-        </div>
-
-        <ReactLoading type='spinningBubbles' color='white' height={667} width={375} delay={300} />
-      {/* <motion.div variants={variantItem}> */}
+      <motion.div variants={variantItem}>
         {mintNumAvailable ?
           <motion.div
             variants={variantItem}>
@@ -160,14 +158,78 @@ const UserPage = (props) => {
             </motion.div>}
           </>
         }
-      {/* </motion.div> */}
+      </motion.div>
+      {/* {mintNumAvailable ?
+        <motion.div
+          variants={variantItem}>
+          <h3 className='sub-text gallery__available'>NFTs Available: {mintNumAvailable}/10</h3>
+          {mintWaiting ?
+            <div className="cta-button connect-wallet-button button_hover flex userpage__loading">
+              <ThreeDotsWave size='0.7rem' />
+            </div>
+            : <button className="cta-button connect-wallet-button button_hover" onClick={mintNFT}>
+              Mint NFT
+            </button>
+          }
+
+        </motion.div>
+        :
+        <>
+          {(mintNumAvailable === 0) && <motion.div
+            variants={variantItem}>
+            <h1 className="header gradient-text">We are Sold out. Sorry!</h1>
+          </motion.div>}
+        </>
+      } */}
 
       <motion.div className='flex' style={{ width: '100%' }} variants={containerVariant}>
-        {(userNFT) && <Gallery contract={contract} getCurrentAccount={getCurrentAccount} data={userNFT} />}
+        {fetchNFTLoading && <motion.div className='userpage__fetch-loading'
+          variants={variantItem}>
+          <Spinner color1="#35aee2" color2="#60c657" text='' textColor="none" />
+        </motion.div>}
+        {(userNFT && !fetchNFTLoading) && <Gallery contract={contract} getCurrentAccount={getCurrentAccount} data={userNFT} />}
+        {/* {(userNFT && !fetchNFTLoading) ?
+          <Gallery contract={contract} getCurrentAccount={getCurrentAccount} data={userNFT} />
+
+          : <motion.div className='userpage__fetch-loading'
+            variants={variantItem}>
+            <Spinner color1="#35aee2" color2="#60c657" text='' textColor="none" />
+          </motion.div>} */}
       </motion.div>
-      <motion.button variants={variantItem} className='userpage__refresh button_hover' onClick={fetchUserNFTs}>
+      <motion.div variants={variantItem}>
+      <motion.button
+      variants={variantItem}
+      className='userpage__refresh button_hover'
+      onClick={fetchUserNFTs}
+      data-tip
+      data-for='refreshButton'>
         <VscRefresh />
       </motion.button>
+      <ReactTooltip
+        id='refreshButton'
+        effect='solid'
+        arrowColor='white'
+        place='left'
+        className='skills-tooltip'>
+        Refresh User's NFTs
+      </ReactTooltip>
+      </motion.div>
+      {/* <motion.button
+      variants={variantItem}
+      className='userpage__refresh button_hover'
+      onClick={fetchUserNFTs}
+      data-tip
+      data-for='refreshButton'>
+        <VscRefresh />
+      </motion.button>
+      <ReactTooltip
+        id='refreshButton'
+        effect='solid'
+        arrowColor='white'
+        place='left'
+        className='skills-tooltip'>
+        Refresh User's NFTs
+      </ReactTooltip> */}
     </motion.div>
 
   )

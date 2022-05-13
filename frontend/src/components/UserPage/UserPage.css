@@ -42,6 +42,11 @@
 
 }
 
+.userpage__fetch-loading{
+    margin-top: 20px;
+    width: 200px;
+    height: 200px;
+}
 .gallery__available{
     margin-top: 5px;
     margin-bottom: 25px;
