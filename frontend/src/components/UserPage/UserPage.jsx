@@ -10,6 +10,7 @@ import { MotionWrap } from '../wrapper'
 import abi from '../../utils/PetsNFT.json'
 import Gallery from '../Gallery/Gallery'
 import { containerVariant, variantItem } from '../../variants/variants'
+import OpenSeaIcon from '../OpenSeaIcon/OpenSeaIcon'
 //import './Home.css'
 const UserPage = (props) => {
   const contractAddress = "0x3d2e1Dc9F73B670c8EB8C6Ba1e41a277a8b30d8a"
@@ -197,22 +198,22 @@ const UserPage = (props) => {
           </motion.div>} */}
       </motion.div>
       <motion.div variants={variantItem}>
-      <motion.button
-      variants={variantItem}
-      className='userpage__refresh button_hover'
-      onClick={fetchUserNFTs}
-      data-tip
-      data-for='refreshButton'>
-        <VscRefresh />
-      </motion.button>
-      <ReactTooltip
-        id='refreshButton'
-        effect='solid'
-        arrowColor='white'
-        place='left'
-        className='skills-tooltip'>
-        Refresh User's NFTs
-      </ReactTooltip>
+        <motion.button
+          variants={variantItem}
+          className='userpage__refresh button_hover'
+          onClick={fetchUserNFTs}
+          data-tip
+          data-for='refreshButton'>
+          <VscRefresh />
+        </motion.button>
+        <ReactTooltip
+          id='refreshButton'
+          effect='solid'
+          arrowColor='white'
+          place='left'
+          className='skills-tooltip'>
+          Refresh User's NFTs
+        </ReactTooltip>
       </motion.div>
       {/* <motion.button
       variants={variantItem}
