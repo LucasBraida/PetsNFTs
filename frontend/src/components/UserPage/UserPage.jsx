@@ -90,7 +90,12 @@ const UserPage = (props) => {
           .then(response => response.json())
           .then(data => {
             const ipfsImage = ipfsIoGateway + data.image.split('//')[1]
-            tempNFTs.push({ src: ipfsImage, name: data.name, description: data.description, token: userTokens[i] })
+            tempNFTs.push(
+              { src: ipfsImage,
+                name: data.name,
+                description: data.description,
+                token: userTokens[i],
+                openSeaUrl: `https://testnets.opensea.io/assets/${contractAddress}/${userTokens[i].toNumber()}` })
           })
       }
       setUserNFT(tempNFTs)

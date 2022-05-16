@@ -33,7 +33,7 @@ const Gallery = (props) => {
                             variants={containerVariant}
                             initial='hidden'
                             animate='show'>
-                            <GalleryItem src={nft.src} name={nft.name} description={nft.description} />
+                            <GalleryItem src={nft.src} name={nft.name} description={nft.description} url={nft.openSeaUrl}/>
                         </motion.div>
 
                     ))}

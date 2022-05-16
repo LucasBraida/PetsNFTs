@@ -8,7 +8,7 @@ import { motion } from 'framer-motion'
 
 export default function App() {
   // Constants
-
+  const rinkebyChainId = "0x4"
   const [currentAccount, setCurrentAccount] = useState()
   const [contract, setContract] = useState(null)
 
@@ -21,7 +21,11 @@ export default function App() {
         alert("Download Metamask and join Web3")
         return;
       }
-
+      const chainId = await ethereum.request({ method: 'eth_chainId' })
+      if(chainId !== rinkebyChainId){
+        alert('You are not connected to the Rinkeby Test Network!')
+        return
+      }
       const accounts = await ethereum.request({ method: "eth_requestAccounts" });
       setCurrentAccount(accounts[0])
     } catch (error) {
