@@ -12,9 +12,7 @@ contract PetsNFT is ERC721URIStorage {
     string private BASE_URI;
     uint private MAX_SUPPLY;
     uint[] private availableTokens;
-    uint private tokenMinted;
-    string[] private availableNFTs = ["Emma-GGIzi","Emma-JJ","Emma-MamaMeuGlubGlub","Emma-VidaIrada","Nick-GGIzi","Nick-JJ","Nick-MamaMeuGlubGlub","Nick-VidaIrada","Zeus-GGIzi","Zeus-JJ","Zeus-MamaMeuGlubGlub","Zeus-VidaIrada"];
-
+    string[] private availableNFTs;
     mapping(address => uint[]) ownerToTokens;
     event NewTokenMinted(address owner, uint tokenId);
 
@@ -22,11 +20,11 @@ contract PetsNFT is ERC721URIStorage {
         string memory baseURI,
         string memory name,
         string memory symbol,
-        uint maxSupply
+        string[] memory aNFT
     ) ERC721(name, symbol) {
         BASE_URI = baseURI;
-        MAX_SUPPLY = maxSupply;
-        tokenMinted = 0;
+        availableNFTs = aNFT;
+        MAX_SUPPLY = aNFT.length;
         // for (uint i = 0; i < MAX_SUPPLY; i++) {
         //     availableTokens.push(i + 1);
         // }
@@ -47,19 +45,18 @@ contract PetsNFT is ERC721URIStorage {
 
 
     function mintNFT() public {
-
-        require(tokenMinted <= MAX_SUPPLY, "Would exceed max supply");
+        uint256 newItemId = _tokenIds.current();
+        require(newItemId < MAX_SUPPLY, "Would exceed max supply");
         string memory input = string(
             abi.encodePacked(block.difficulty, msg.sender, block.timestamp)
         );
-        uint256 newItemId = _tokenIds.current();
+
         uint256 randomNumber = _getRandomToken(input);
         string memory tokenURI = string(abi.encodePacked(availableNFTs[randomNumber]));
         _safeMint(msg.sender, newItemId);
         _removeUsedToken(randomNumber);
         _setTokenURI(newItemId, tokenURI);
         _tokenIds.increment();
-        tokenMinted = tokenMinted + 1;
         ownerToTokens[msg.sender].push(newItemId);
         emit NewTokenMinted(msg.sender, newItemId);
     }

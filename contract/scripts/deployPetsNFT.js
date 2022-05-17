@@ -1,13 +1,15 @@
 const BASE_URI = "ipfs://QmP3r55rUGYFhuVHCaChBZsZpcJdGuDFadYBfQw18JqM3W"
 const TOKEN_NAME = "PetsNFT";
 const TOKEN_SYMBOL = "PETS";
+const aNFT = ["Emma-GGIzi","Emma-JJ","Emma-MamaMeuGlubGlub","Emma-VidaIrada","Nick-GGIzi","Nick-JJ","Nick-MamaMeuGlubGlub","Nick-VidaIrada","Zeus-GGIzi","Zeus-JJ","Zeus-MamaMeuGlubGlub","Zeus-VidaIrada"];
+
 
 async function main() {
  try {
   const [owner, randomPerson, randomPerson2] = await hre.ethers.getSigners();
 
   const factory = await hre.ethers.getContractFactory("PetsNFT");
-  const petsNFTContract = await factory.deploy(BASE_URI, TOKEN_NAME, TOKEN_SYMBOL, 10)
+  const petsNFTContract = await factory.deploy(BASE_URI, TOKEN_NAME, TOKEN_SYMBOL, aNFT)
   await petsNFTContract.deployed();
 
   petsNFTContract.on('NewTokenMinted', (addr, tokenId) =>{
@@ -37,12 +39,28 @@ async function main() {
 
   mintTxn = await petsNFTContract.connect(randomPerson).mintNFT()
   mintTxn.wait()
-  // mintTxn = await petsNFTContract.connect(randomPerson).mintNFT()
-  // mintTxn.wait()
-  // mintTxn = await petsNFTContract.connect(randomPerson).mintNFT()
-  // mintTxn.wait()
-  // mintTxn = await petsNFTContract.connect(randomPerson).mintNFT()
-  // mintTxn.wait()
+  mintTxn = await petsNFTContract.connect(randomPerson).mintNFT()
+  mintTxn.wait()
+  mintTxn = await petsNFTContract.connect(randomPerson).mintNFT()
+  mintTxn.wait()
+  mintTxn = await petsNFTContract.connect(randomPerson).mintNFT()
+  mintTxn.wait()
+  mintTxn = await petsNFTContract.connect(randomPerson).mintNFT()
+  mintTxn.wait()
+  mintTxn = await petsNFTContract.connect(randomPerson).mintNFT()
+  mintTxn.wait()
+  mintTxn = await petsNFTContract.connect(randomPerson).mintNFT()
+  mintTxn.wait()
+  mintTxn = await petsNFTContract.connect(randomPerson).mintNFT()
+  mintTxn.wait()
+  mintTxn = await petsNFTContract.connect(randomPerson).mintNFT()
+  mintTxn.wait()
+  mintTxn = await petsNFTContract.connect(randomPerson).mintNFT()
+  mintTxn.wait()
+  mintTxn = await petsNFTContract.connect(randomPerson).mintNFT()
+  mintTxn.wait()
+  mintTxn = await petsNFTContract.connect(randomPerson).mintNFT()
+  mintTxn.wait()
   avt = await petsNFTContract.getAvailableNFTs()
 
 
