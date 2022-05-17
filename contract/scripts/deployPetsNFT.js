@@ -15,7 +15,7 @@ async function main() {
   })
   console.log("RandomPerson1: ", randomPerson.address)
   console.log("RandomPerson2: ", randomPerson2.address)
-  let avt = await petsNFTContract.getAvailableTokens()
+  let avt = await petsNFTContract.getAvailableNFTs()
 
   console.log(avt)
   let mintTxn = await petsNFTContract.connect(randomPerson2).mintNFT()
@@ -30,20 +30,20 @@ async function main() {
 
   //console.log("Token Owner", ownerOf)
 
-  avt = await petsNFTContract.getAvailableTokens()
+  avt = await petsNFTContract.getAvailableNFTs()
 
 
   console.log(avt)
 
   mintTxn = await petsNFTContract.connect(randomPerson).mintNFT()
   mintTxn.wait()
-  mintTxn = await petsNFTContract.connect(randomPerson).mintNFT()
-  mintTxn.wait()
-  mintTxn = await petsNFTContract.connect(randomPerson).mintNFT()
-  mintTxn.wait()
-  mintTxn = await petsNFTContract.connect(randomPerson).mintNFT()
-  mintTxn.wait()
-  avt = await petsNFTContract.getAvailableTokens()
+  // mintTxn = await petsNFTContract.connect(randomPerson).mintNFT()
+  // mintTxn.wait()
+  // mintTxn = await petsNFTContract.connect(randomPerson).mintNFT()
+  // mintTxn.wait()
+  // mintTxn = await petsNFTContract.connect(randomPerson).mintNFT()
+  // mintTxn.wait()
+  avt = await petsNFTContract.getAvailableNFTs()
 
 
   console.log(avt)
@@ -56,6 +56,10 @@ async function main() {
   console.log('RandomPerson2 tokens: ', ownerTKN)
   ownerTKN = await petsNFTContract.getOwnersTokens(owner.address)
   console.log('Owner tokens: ', ownerTKN)
+  let tkURI = await petsNFTContract.tokenURI(0)
+  console.log(tkURI)
+  tkURI = await petsNFTContract.tokenURI(1)
+  console.log(tkURI)
   await new Promise(res => setTimeout(() => res(null), 5000));
 
  }catch(error){
