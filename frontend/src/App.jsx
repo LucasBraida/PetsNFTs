@@ -1,8 +1,8 @@
 import './styles/App.css'
 import React, { useState } from "react"
-import { ethers } from "ethers"
-import abi from "./utils/PetsNFT.json"
-import Home from './components/Home/Home'
+// import { ethers } from "ethers"
+// import abi from "./utils/PetsNFT.json"
+// import Home from './components/Home/Home'
 import UserPage from './components/UserPage/UserPage'
 import { motion } from 'framer-motion'
 
@@ -10,7 +10,7 @@ export default function App() {
   // Constants
   const rinkebyChainId = "0x4"
   const [currentAccount, setCurrentAccount] = useState()
-  const [contract, setContract] = useState(null)
+  // const [contract, setContract] = useState(null)
 
 
   const connectWallet = async () => {

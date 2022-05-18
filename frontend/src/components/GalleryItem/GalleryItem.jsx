@@ -49,9 +49,3 @@ const GalleryItem = (props) => {
 }
 
 export default GalleryItem
- //{images.length > 0 ? images : <h1>No nfts</h1>}
-/* <div className='gallery__img gallery__placeholder' style={!loaded ? {} : { display: 'none' }}>Pets NFT</div>
-                    <img className='gallery__img'
-                        src='https://ipfs.io/ipfs/QmRafV2oB9UzSBjWBqcEcnpZhDjAcX1uLAAMBACQBSsMw8/4.jpg'
-                        style={loaded ? {} : { display: 'none' }}
-                        onLoad={() => setLoaded(true)}></img> */

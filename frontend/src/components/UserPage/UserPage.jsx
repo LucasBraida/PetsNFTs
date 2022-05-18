@@ -13,7 +13,8 @@ import { containerVariant, variantItem } from '../../variants/variants'
 import OpenSeaIcon from '../OpenSeaIcon/OpenSeaIcon'
 //import './Home.css'
 const UserPage = (props) => {
-  const contractAddress = "0x3d2e1Dc9F73B670c8EB8C6Ba1e41a277a8b30d8a"
+  //const contractAddress = "0x3d2e1Dc9F73B670c8EB8C6Ba1e41a277a8b30d8a"
+  const contractAddress = '0x1Bbbbc673175f13B43301E2e08E9E4d7cbad467d'
   const contractABI = abi.abi
   const [contract, setContract] = useState(null)
   const [mintWaiting, setMintWaiting] = useState(false)
@@ -71,7 +72,7 @@ const UserPage = (props) => {
 
   const getMintNumAvailable = async () => {
     const cont = getContract()
-    const numAv = await cont.getNumberOfAvailableTokens()
+    const numAv = await cont.getNumberOfAvailableNFTs()
     setMintNumAvailable(numAv.toNumber())
     return numAv
   }
@@ -144,13 +145,14 @@ const UserPage = (props) => {
       <motion.div variants={variantItem}>
         {mintNumAvailable ?
           <motion.div
-            variants={variantItem}>
-            <h3 className='sub-text gallery__available'>NFTs Available: {mintNumAvailable}/10</h3>
+            variants={variantItem}
+            className='flex'>
+            <h3 className='sub-text gallery__available'>NFTs Available: {mintNumAvailable}/12</h3>
             {mintWaiting ?
-              <div className="cta-button connect-wallet-button button_hover flex userpage__loading">
+              <div className="cta-button connect-wallet-button button_hover userpage__loading" onClick={() =>{setMintWaiting(false)}}>
                 <ThreeDotsWave size='0.7rem' />
               </div>
-              : <button className="cta-button connect-wallet-button button_hover" onClick={mintNFT}>
+              : <button className="cta-button connect-wallet-button button_hover" onClick={() =>{setMintWaiting(true)}}>
                 Mint NFT
               </button>
             }

@@ -20,11 +20,11 @@ contract PetsNFT is ERC721URIStorage {
         string memory baseURI,
         string memory name,
         string memory symbol,
-        string[] memory aNFT
+        string[] memory NFTs
     ) ERC721(name, symbol) {
         BASE_URI = baseURI;
-        availableNFTs = aNFT;
-        MAX_SUPPLY = aNFT.length;
+        availableNFTs = NFTs;
+        MAX_SUPPLY = NFTs.length;
         // for (uint i = 0; i < MAX_SUPPLY; i++) {
         //     availableTokens.push(i + 1);
         // }
@@ -72,5 +72,9 @@ contract PetsNFT is ERC721URIStorage {
 
   function getOwnersTokens(address owner) public view returns(uint[] memory){
     return ownerToTokens[owner];
+  }
+
+  function getMaxSupply() public view returns(uint){
+    return MAX_SUPPLY;
   }
 }

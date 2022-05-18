@@ -1,4 +1,4 @@
-const BASE_URI = "ipfs://QmP3r55rUGYFhuVHCaChBZsZpcJdGuDFadYBfQw18JqM3W"
+const BASE_URI = "ipfs://QmUUy3VzjYpNJqkzsqYrmNBME3MoBfq7LGRyXhGYLUus2q"
 const TOKEN_NAME = "PetsNFT";
 const TOKEN_SYMBOL = "PETS";
 const aNFT = ["Emma-GGIzi","Emma-JJ","Emma-MamaMeuGlubGlub","Emma-VidaIrada","Nick-GGIzi","Nick-JJ","Nick-MamaMeuGlubGlub","Nick-VidaIrada","Zeus-GGIzi","Zeus-JJ","Zeus-MamaMeuGlubGlub","Zeus-VidaIrada"];
