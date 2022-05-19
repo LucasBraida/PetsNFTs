@@ -7,14 +7,16 @@ import Spinner from '../Spinner/Spinner'
 import './UserPage.css'
 import ThreeDotsWave from '../ThreeDotsWave/ThreeDotsWave'
 import { MotionWrap } from '../wrapper'
-import abi from '../../utils/PetsNFT.json'
+//import abi from '../../utils/PetsNFT.json'
+import abi from '../../utils/PetsNFTVRF.json'
 import Gallery from '../Gallery/Gallery'
 import { containerVariant, variantItem } from '../../variants/variants'
 import OpenSeaIcon from '../OpenSeaIcon/OpenSeaIcon'
 //import './Home.css'
 const UserPage = (props) => {
-  //const contractAddress = "0x3d2e1Dc9F73B670c8EB8C6Ba1e41a277a8b30d8a"
-  const contractAddress = '0x1Bbbbc673175f13B43301E2e08E9E4d7cbad467d'
+  //const contractAddress = "0x3d2e1Dc9F73B670c8EB8C6Ba1e41a277a8b30d8a" VElho
+  //const contractAddress = '0x1Bbbbc673175f13B43301E2e08E9E4d7cbad467d' Sem VRF
+  const contractAddress = '0x7B4E0ad04B1557C00d82b3f14CcF596B2C18f5b9'
   const contractABI = abi.abi
   const [contract, setContract] = useState(null)
   const [mintWaiting, setMintWaiting] = useState(false)
@@ -50,6 +52,17 @@ const UserPage = (props) => {
       alert(`Hey there! We've minted your NFT and sent it to your wallet. It may be blank right now. It can take a max of 10 min to show up on OpenSea. Here's the link: https://testnets.opensea.io/assets/${contractAddress}/${tokenId.toNumber()}`)
       fetchUserNFTs()
     }
+  }
+
+  const onNewRandomRequest = async (address, requestId) => {
+    //getMintNumAvailable()
+    alert(`RequestId for tour NFT: ${address}  ${requestId}`)
+    // const currentAccount = await getCurrentAccount()
+    // if (address.toUpperCase() === currentAccount.toUpperCase()) {
+    //   console.log(address, tokenId.toNumber())
+    //   alert(`Hey there! We've minted your NFT and sent it to your wallet. It may be blank right now. It can take a max of 10 min to show up on OpenSea. Here's the link: https://testnets.opensea.io/assets/${contractAddress}/${tokenId.toNumber()}`)
+    //   fetchUserNFTs()
+    // }
   }
   const getContract = () => {
     try {
@@ -127,11 +140,13 @@ const UserPage = (props) => {
   useEffect(() => {
     const petsNFTContract = getContract()
     petsNFTContract.on("NewTokenMinted", onNewMint)
+    petsNFTContract.on('NewRandomNumberRequest', onNewRandomRequest)
     getMintNumAvailable()
     fetchUserNFTs()
     return () => {
       if (petsNFTContract) {
         petsNFTContract.off("NewTokenMinted", onNewMint)
+        petsNFTContract.off('NewRandomNumberRequest', onNewRandomRequest)
       }
     }
 
@@ -152,7 +167,7 @@ const UserPage = (props) => {
               <div className="cta-button connect-wallet-button button_hover userpage__loading" onClick={() =>{setMintWaiting(false)}}>
                 <ThreeDotsWave size='0.7rem' />
               </div>
-              : <button className="cta-button connect-wallet-button button_hover" onClick={() =>{setMintWaiting(true)}}>
+              : <button className="cta-button connect-wallet-button button_hover" onClick={mintNFT}>
                 Mint NFT
               </button>
             }
