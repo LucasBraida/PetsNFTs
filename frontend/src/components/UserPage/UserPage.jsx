@@ -23,6 +23,7 @@ const UserPage = (props) => {
   const [mintNumAvailable, setMintNumAvailable] = useState()
   const [userNFT, setUserNFT] = useState(null)
   const [fetchNFTLoading, setFetchNFTLoading] = useState(false)
+  const [maxSupply, setMaxSupply] = useState(null)
   const ipfsIoGateway = 'https://ipfs.io/ipfs/'
 
   //Function to make sure the current connected account is being used
@@ -56,7 +57,7 @@ const UserPage = (props) => {
 
   const onNewRandomRequest = async (address, requestId) => {
     //getMintNumAvailable()
-    alert(`RequestId for tour NFT: ${address}  ${requestId}`)
+    alert(`RequestId for your NFT: ${address}  ${requestId}`)
     // const currentAccount = await getCurrentAccount()
     // if (address.toUpperCase() === currentAccount.toUpperCase()) {
     //   console.log(address, tokenId.toNumber())
@@ -89,6 +90,13 @@ const UserPage = (props) => {
     setMintNumAvailable(numAv.toNumber())
     return numAv
   }
+  const getMaxSupply = async () => {
+    const cont = getContract()
+    const numAv = await cont.getMaxSupply()
+    setMaxSupply(numAv.toNumber())
+    return numAv
+  }
+
 
   const fetchUserNFTs = async () => {
     setFetchNFTLoading(true)
@@ -142,6 +150,7 @@ const UserPage = (props) => {
     petsNFTContract.on("NewTokenMinted", onNewMint)
     petsNFTContract.on('NewRandomNumberRequest', onNewRandomRequest)
     getMintNumAvailable()
+    getMaxSupply()
     fetchUserNFTs()
     return () => {
       if (petsNFTContract) {
@@ -162,7 +171,7 @@ const UserPage = (props) => {
           <motion.div
             variants={variantItem}
             className='flex'>
-            <h3 className='sub-text gallery__available'>NFTs Available: {mintNumAvailable}/12</h3>
+            <h3 className='sub-text gallery__available'>NFTs Available: {mintNumAvailable}/{maxSupply}</h3>
             {mintWaiting ?
               <div className="cta-button connect-wallet-button button_hover userpage__loading" onClick={() =>{setMintWaiting(false)}}>
                 <ThreeDotsWave size='0.7rem' />
