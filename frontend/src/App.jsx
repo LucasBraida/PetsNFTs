@@ -1,7 +1,7 @@
 import './styles/App.css'
 import React, { useState } from "react"
 // import { ethers } from "ethers"
-// import abi from "./utils/PetsNFT.json"
+import abi from "./utils/PetsNFTVRF.json"
 // import Home from './components/Home/Home'
 import UserPage from './components/UserPage/UserPage'
 import { motion } from 'framer-motion'
@@ -10,6 +10,8 @@ export default function App() {
   // Constants
   const rinkebyChainId = "0x4"
   const [currentAccount, setCurrentAccount] = useState()
+  const contractAddress = '0x2a7859d36190ad6578a4dB4fa041603236E07f7d'
+  const contractABI = abi.abi
   // const [contract, setContract] = useState(null)
 
 
@@ -62,7 +64,7 @@ export default function App() {
         <div className="header-container">
           <h1 className="header gradient-text">Pets NFT Collection</h1>
           <h2 className="sub-text">
-            My Pets. With silly phares. For fun.
+            My Pets. With silly phrases. For fun.
           </h2>
         </div>
         {!currentAccount ?
@@ -72,7 +74,7 @@ export default function App() {
               Connect Wallet
             </button>
           </>
-          : <UserPage currentAccount={currentAccount} getCurrentAccount={getCurrentAccount}  />}
+          : <UserPage currentAccount={currentAccount} getCurrentAccount={getCurrentAccount}  contractAddress={contractAddress} contractABI={contractABI}/>}
 
       </motion.div>
     </div>

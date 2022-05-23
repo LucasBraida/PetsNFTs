@@ -16,8 +16,8 @@ import OpenSeaIcon from '../OpenSeaIcon/OpenSeaIcon'
 const UserPage = (props) => {
   //const contractAddress = "0x3d2e1Dc9F73B670c8EB8C6Ba1e41a277a8b30d8a" VElho
   //const contractAddress = '0x1Bbbbc673175f13B43301E2e08E9E4d7cbad467d' Sem VRF
-  const contractAddress = '0x7B4E0ad04B1557C00d82b3f14CcF596B2C18f5b9'
-  const contractABI = abi.abi
+  const contractAddress = props.contractAddress
+  const contractABI = props.contractABI
   const [contract, setContract] = useState(null)
   const [mintWaiting, setMintWaiting] = useState(false)
   const [mintNumAvailable, setMintNumAvailable] = useState()
@@ -56,14 +56,10 @@ const UserPage = (props) => {
   }
 
   const onNewRandomRequest = async (address, requestId) => {
-    //getMintNumAvailable()
-    alert(`RequestId for your NFT: ${address}  ${requestId}`)
-    // const currentAccount = await getCurrentAccount()
-    // if (address.toUpperCase() === currentAccount.toUpperCase()) {
-    //   console.log(address, tokenId.toNumber())
-    //   alert(`Hey there! We've minted your NFT and sent it to your wallet. It may be blank right now. It can take a max of 10 min to show up on OpenSea. Here's the link: https://testnets.opensea.io/assets/${contractAddress}/${tokenId.toNumber()}`)
-    //   fetchUserNFTs()
-    // }
+    const currentAccount = await getCurrentAccount()
+    if (address.toUpperCase() === currentAccount.toUpperCase()) {
+      alert(`Hello, buddy!\r\nWe are using real random numbers to create your NFT with the help of Chainlink. \r\nThat's awesome! But it comes with a little price. Your NFt will take a little longer to be ready. \r\nDon't worry, we will let you know when it's ready!`)
+    }
   }
   const getContract = () => {
     try {
@@ -113,11 +109,13 @@ const UserPage = (props) => {
           .then(data => {
             const ipfsImage = ipfsIoGateway + data.image.split('//')[1]
             tempNFTs.push(
-              { src: ipfsImage,
+              {
+                src: ipfsImage,
                 name: data.name,
                 description: data.description,
                 token: userTokens[i],
-                openSeaUrl: `https://testnets.opensea.io/assets/${contractAddress}/${userTokens[i].toNumber()}` })
+                openSeaUrl: `https://testnets.opensea.io/assets/${contractAddress}/${userTokens[i].toNumber()}`
+              })
           })
       }
       setUserNFT(tempNFTs)
@@ -131,6 +129,7 @@ const UserPage = (props) => {
     try {
       const { ethereum } = window
       if (ethereum) {
+        console.log(contract)
         let mint = await contract.mintNFT()
         setMintWaiting(true)
         await mint.wait()
@@ -173,7 +172,7 @@ const UserPage = (props) => {
             className='flex'>
             <h3 className='sub-text gallery__available'>NFTs Available: {mintNumAvailable}/{maxSupply}</h3>
             {mintWaiting ?
-              <div className="cta-button connect-wallet-button button_hover userpage__loading" onClick={() =>{setMintWaiting(false)}}>
+              <div className="cta-button connect-wallet-button button_hover userpage__loading" >
                 <ThreeDotsWave size='0.7rem' />
               </div>
               : <button className="cta-button connect-wallet-button button_hover" onClick={mintNFT}>
