@@ -10,7 +10,8 @@ export default function App() {
   // Constants
   const rinkebyChainId = "0x4"
   const [currentAccount, setCurrentAccount] = useState()
-  const contractAddress = '0x2a7859d36190ad6578a4dB4fa041603236E07f7d'
+  //const contractAddress = '0x2a7859d36190ad6578a4dB4fa041603236E07f7d'
+  const contractAddress = '0xE5e4D944e2256Fa5157bc3Df6deF34Ea4d280530'
   const contractABI = abi.abi
   // const [contract, setContract] = useState(null)
 

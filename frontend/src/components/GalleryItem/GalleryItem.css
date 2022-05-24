@@ -1,6 +1,6 @@
 .gallery__item {
-    width: 300px;
-    height: 400px;
+    width: 330px;
+    height: 440px;
     background-color: var(--white-color);
     border-radius: 15px;
     display: flex;
@@ -41,7 +41,7 @@
     text-align: start;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 1.1rem;
+    font-size: 1.08rem;
     font-weight: 400;
     align-self: flex-start;
 }
