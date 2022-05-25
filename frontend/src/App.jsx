@@ -1,19 +1,17 @@
 import './styles/App.css'
-import React, { useState } from "react"
-// import { ethers } from "ethers"
+import React, { useState, useEffect } from "react"
 import abi from "./utils/PetsNFTVRF.json"
-// import Home from './components/Home/Home'
 import UserPage from './components/UserPage/UserPage'
 import { motion } from 'framer-motion'
+import { ethers } from "ethers"
 
 export default function App() {
   // Constants
   const rinkebyChainId = "0x4"
   const [currentAccount, setCurrentAccount] = useState()
-  //const contractAddress = '0x2a7859d36190ad6578a4dB4fa041603236E07f7d'
   const contractAddress = '0xE5e4D944e2256Fa5157bc3Df6deF34Ea4d280530'
   const contractABI = abi.abi
-  // const [contract, setContract] = useState(null)
+  const [contract, setContract] = useState()
 
 
   const connectWallet = async () => {
@@ -53,6 +51,28 @@ export default function App() {
     return null
   }
 
+  const getContract = () => {
+    try {
+      const { ethereum } = window
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum)
+        const signer = provider.getSigner()
+        const petsNFTContract = new ethers.Contract(contractAddress, contractABI, signer)
+        setContract(petsNFTContract)
+        return petsNFTContract
+      } else {
+        console.log("No wallet found")
+        return null
+      }
+    } catch (error) {
+      console.log(error)
+      return null
+    }
+  }
+
+  useEffect(() => {
+    getContract()
+  },[])
 
 
   return (
@@ -63,7 +83,7 @@ export default function App() {
         transition={{ duration: 0.8, ease: 'easeInOut' }}
         className="container">
         <div className="header-container">
-          <h1 className="header gradient-text">Pets NFT Collection</h1>
+          <h1 className="header gradient-text">Lazy Pets NFT Collection</h1>
           <h2 className="sub-text">
             My Pets. With silly phrases. For fun.
           </h2>
@@ -75,7 +95,7 @@ export default function App() {
               Connect Wallet
             </button>
           </>
-          : <UserPage currentAccount={currentAccount} getCurrentAccount={getCurrentAccount}  contractAddress={contractAddress} contractABI={contractABI}/>}
+          : <UserPage currentAccount={currentAccount} getCurrentAccount={getCurrentAccount}  contractAddress={contractAddress} contractABI={contractABI} contract={contract}/>}
 
       </motion.div>
     </div>

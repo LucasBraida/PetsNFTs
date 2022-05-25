@@ -1,20 +1,10 @@
-import React, { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import React from 'react'
+import { motion} from 'framer-motion'
 import GalleryItem from '../GalleryItem/GalleryItem'
 import './Gallery.css'
+import { containerVariant} from '../../variants/variants'
 const Gallery = (props) => {
-    const containerVariant = {
-        hidden: { opacity: 0 },
-        show: {
-            opacity: [0, 0, 1],
-            y: [100, 50, 0],
-            transition: { duration: 1, ease: 'easeInOut', staggerChildren: 2 }
-        }
-    }
-    const variantItem = {
-        hidden: { opacity: 0 },
-        show: { opacity: 1 }
-    }
+
     return (
         <motion.div
             variants={containerVariant}
@@ -24,9 +14,7 @@ const Gallery = (props) => {
         >
 
             {(props.data.length > 0) ?
-                // <motion.div
-                //     variants={containerVariant}
-                // >
+
                 <>
                     {props.data.map(nft => (
                         <motion.div key={nft.token}
@@ -39,7 +27,7 @@ const Gallery = (props) => {
                     ))}
                 </>
 
-                //    </motion.div>
+
                 : <motion.h2
                     variants={containerVariant}
                     initial='hidden'
