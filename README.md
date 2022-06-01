@@ -33,14 +33,10 @@ The website is available at
 
 ### Images
 
-![](https://github.com/LucasBraida/BuildSpaceTutorials/blob/main/WavePortal/LovePortalHomePage.PNG)
-
+![](https://raw.githubusercontent.com/LucasBraida/PetsNFTs/main/frontend/LPNFT_connect_wallet.png)
 > Home page
 
-![](https://github.com/LucasBraida/BuildSpaceTutorials/blob/main/WavePortal/LovePortalWaveList.PNG)
+![](https://raw.githubusercontent.com/LucasBraida/PetsNFTs/main/frontend/LPNFT_gallery.png)
 
-> WaveList
+> Gallery
 
-![](https://github.com/LucasBraida/BuildSpaceTutorials/blob/main/WavePortal/LovePortalSendLove.PNG)
-
-> Send Love window
