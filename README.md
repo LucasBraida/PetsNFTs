@@ -12,7 +12,7 @@ Finally, the frontend contains a clean design where users can mint NFTS, when th
 
 The contract is deployed at Rinkeby at **0xE5e4D944e2256Fa5157bc3Df6deF34Ea4d280530**
 
-The website is available at
+The website is available at **https://lucasbraidalazypets.netlify.app/**
 
 
 
