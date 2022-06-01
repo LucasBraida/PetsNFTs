@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
-import { ethers } from "ethers"
 import { VscRefresh } from 'react-icons/vsc'
 import ReactTooltip from 'react-tooltip'
 import Spinner from '../Spinner/Spinner'
@@ -12,7 +11,6 @@ import { containerVariant, variantItem } from '../../variants/variants'
 const UserPage = (props) => {
 
   const contractAddress = props.contractAddress
-  const contractABI = props.contractABI
   const contract = props.contract
   //const [contract, setContract] = useState(null)
   const [mintWaiting, setMintWaiting] = useState(false)
@@ -41,22 +39,21 @@ const UserPage = (props) => {
     return null
   }
 
-  const onNewMint = async (address, tokenId) => {
-    getMintNumAvailable()
-    const currentAccount = await getCurrentAccount()
-    if (address.toUpperCase() === currentAccount.toUpperCase()) {
-      console.log(address, tokenId.toNumber())
-      alert(`Hey there! We've minted your NFT and sent it to your wallet. It may be blank right now. It can take a max of 10 min to show up on OpenSea. Here's the link: https://testnets.opensea.io/assets/${contractAddress}/${tokenId.toNumber()}`)
-      fetchUserNFTs()
-    }
-  }
+  // const onNewMint = async (address, tokenId) => {
+  //   getMintNumAvailable()
+  //   const currentAccount = await getCurrentAccount()
+  //   if (address.toUpperCase() === currentAccount.toUpperCase()) {
+  //     alert(`Hey there! We've minted your NFT and sent it to your wallet. It may be blank right now. It can take a max of 10 min to show up on OpenSea. Here's the link: https://testnets.opensea.io/assets/${contractAddress}/${tokenId.toNumber()}`)
+  //     fetchUserNFTs()
+  //   }
+  // }
 
-  const onNewRandomRequest = async (address, requestId) => {
-    const currentAccount = await getCurrentAccount()
-    if (address.toUpperCase() === currentAccount.toUpperCase()) {
-      alert(`Hello, buddy!\r\nWe are using real random numbers to create your NFT with the help of Chainlink. \r\nThat's awesome! But it comes with a little price. Your NFt will take a little longer to be ready. \r\nDon't worry, we will let you know when it's ready!`)
-    }
-  }
+  // const onNewRandomRequest = async (address, requestId) => {
+  //   const currentAccount = await getCurrentAccount()
+  //   if (address.toUpperCase() === currentAccount.toUpperCase()) {
+  //     alert(`Hello, buddy!\r\nWe are using real random numbers to create your NFT with the help of Chainlink. \r\nThat's awesome! But it comes with a little price. Your NFt will take a little longer to be ready. \r\nDon't worry, we will let you know when it's ready!`)
+  //   }
+  // }
   // const getContract = () => {
   //   try {
   //     const { ethereum } = window
@@ -76,29 +73,29 @@ const UserPage = (props) => {
   //   }
   // }
 
-  const getMintNumAvailable = async () => {
-    // const cont = getContract()
-    // const numAv = await cont.getNumberOfAvailableNFTs()
-    // setMintNumAvailable(numAv.toNumber())
-    // return numAv
-    //const cont = getContract()
-    const numAv = await contract.getNumberOfAvailableNFTs()
-    setMintNumAvailable(numAv.toNumber())
-    return numAv
-  }
-  const getMaxSupply = async () => {
-    // const cont = getContract()
-    // const numAv = await cont.getMaxSupply()
-    // setMaxSupply(numAv.toNumber())
-    // return numAv
-    //const cont = getContract()
-    const numAv = await contract.getMaxSupply()
-    setMaxSupply(numAv.toNumber())
-    return numAv
-  }
+  // const getMintNumAvailable = async () => {
+  //   // const cont = getContract()
+  //   // const numAv = await cont.getNumberOfAvailableNFTs()
+  //   // setMintNumAvailable(numAv.toNumber())
+  //   // return numAv
+  //   //const cont = getContract()
+  //   const numAv = await contract.getNumberOfAvailableNFTs()
+  //   setMintNumAvailable(numAv.toNumber())
+  //   return numAv
+  // }
+  // const getMaxSupply = async () => {
+  //   // const cont = getContract()
+  //   // const numAv = await cont.getMaxSupply()
+  //   // setMaxSupply(numAv.toNumber())
+  //   // return numAv
+  //   //const cont = getContract()
+  //   const numAv = await contract.getMaxSupply()
+  //   setMaxSupply(numAv.toNumber())
+  //   return numAv
+  // }
 
 
-  const fetchUserNFTs = async () => {
+  const fetchUserNFTs = useCallback(async () => {
     setFetchNFTLoading(true)
     const currentAccount = await getCurrentAccount()
     //const contract = getContract()
@@ -122,13 +119,14 @@ const UserPage = (props) => {
                 openSeaUrl: `https://testnets.opensea.io/assets/${contractAddress}/${userTokens[i].toNumber()}`
               })
           })
+          .catch(e => {console.log('There has been a problem with your NFT fetch operation: ' + e.message)})
       }
       setUserNFT(tempNFTs)
       setFetchNFTLoading(false)
     } else {
       console.log('No tokens')
     }
-  }
+  }, [contract, contractAddress])
 
   const mintNFT = async () => {
     try {
@@ -152,6 +150,43 @@ const UserPage = (props) => {
     // const petsNFTContract = getContract()
     // petsNFTContract.on("NewTokenMinted", onNewMint)
     // petsNFTContract.on('NewRandomNumberRequest', onNewRandomRequest)
+    const onNewMint = async (address, tokenId) => {
+      getMintNumAvailable()
+      const currentAccount = await getCurrentAccount()
+      if (address.toUpperCase() === currentAccount.toUpperCase()) {
+        alert(`Hey there! We've minted your NFT and sent it to your wallet. It may be blank right now. It can take a max of 10 min to show up on OpenSea. Here's the link: https://testnets.opensea.io/assets/${contractAddress}/${tokenId.toNumber()}`)
+        fetchUserNFTs()
+      }
+    }
+
+    const onNewRandomRequest = async (address, requestId) => {
+      const currentAccount = await getCurrentAccount()
+      if (address.toUpperCase() === currentAccount.toUpperCase()) {
+        alert(`Hello, buddy!\r\nWe are using real random numbers to create your NFT with the help of Chainlink. \r\nThat's awesome! But it comes with a little price. Your NFt will take a little longer to be ready. \r\nDon't worry, we will let you know when it's ready!`)
+      }
+    }
+
+    const getMaxSupply = async () => {
+      // const cont = getContract()
+      // const numAv = await cont.getMaxSupply()
+      // setMaxSupply(numAv.toNumber())
+      // return numAv
+      //const cont = getContract()
+      const numAv = await contract.getMaxSupply()
+      setMaxSupply(numAv.toNumber())
+      return numAv
+    }
+
+    const getMintNumAvailable = async () => {
+      // const cont = getContract()
+      // const numAv = await cont.getNumberOfAvailableNFTs()
+      // setMintNumAvailable(numAv.toNumber())
+      // return numAv
+      //const cont = getContract()
+      const numAv = await contract.getNumberOfAvailableNFTs()
+      setMintNumAvailable(numAv.toNumber())
+      return numAv
+    }
     contract.on("NewTokenMinted", onNewMint)
     contract.on('NewRandomNumberRequest', onNewRandomRequest)
     getMintNumAvailable()
@@ -168,7 +203,7 @@ const UserPage = (props) => {
       }
     }
 
-  }, [contract])
+  }, [contract, contractAddress, fetchUserNFTs])
 
   return (
     <motion.div className='userpage'
