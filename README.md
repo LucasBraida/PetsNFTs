@@ -8,11 +8,11 @@ When minting, a real random number is generated using Chainlink VRF2, one of the
 
 The contract stiil has a number of functions to facilitate viewing information. An important feature is a mapping used to keep the information of all the tokens owned by each address. This feature, although helpful to the frontend gallery, requested an overrride of the ***_transfer*** function making sure that any transfer in another plataform, such as OpenSea, is reflected in our gallery.
 
-Finally, the frontend contains a clean design where users can mint NFTS, when they're not sold out, see their gallery with the help of ***ipfs.io*** as their IPFS Gateway and a button to refresh the current account NFTs.
+Finally, the frontend contains a clean design where users can mint NFTS, when they're not sold out, see their gallery with the help of ***ipfs.io*** as the IPFS Gateway and a button to refresh the current account NFTs. Since we are using a public and free IPFS Gateway, our gallery is not the most reliable and image loading may fluctuate.
 
-The contract is deployed at Rinkeby at
+The contract is deployed at Goerli using QuickNodes at **0x3f205368FAD619c3A1160dba504e35400c771EB2** and verified with the source coede available in https://goerli.etherscan.io/address/0x3f205368FAD619c3A1160dba504e35400c771EB2#code
 
-The website is available at
+The website is available at **https://lucasbraidalazypets.netlify.app/**
 
 
 
@@ -33,14 +33,10 @@ The website is available at
 
 ### Images
 
-![](https://github.com/LucasBraida/BuildSpaceTutorials/blob/main/WavePortal/LovePortalHomePage.PNG)
-
+![](https://raw.githubusercontent.com/LucasBraida/PetsNFTs/main/frontend/LPNFT_connect_wallet.png)
 > Home page
 
-![](https://github.com/LucasBraida/BuildSpaceTutorials/blob/main/WavePortal/LovePortalWaveList.PNG)
+![](https://raw.githubusercontent.com/LucasBraida/PetsNFTs/main/frontend/LPNFT_gallery.png)
 
-> WaveList
+> Gallery
 
-![](https://github.com/LucasBraida/BuildSpaceTutorials/blob/main/WavePortal/LovePortalSendLove.PNG)
-
-> Send Love window

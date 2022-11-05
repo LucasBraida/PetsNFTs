@@ -8,7 +8,7 @@ const GalleryItem = (props) => {
 
     return (
         <Tilt tiltMaxAngleX={0} tiltMaxAngleY={10} >
-            <div className='gallery__item' onClick={() => { console.log('tilt clicked') }}>
+            <div className='gallery__item' >
                 <motion.img
                     whileInView={{ scale: [0.8, 1] }}
                     transition={{ duration: 1, ease: 'easeInOut' }}

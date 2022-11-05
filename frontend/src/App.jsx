@@ -53,6 +53,9 @@ export default function App() {
     return null
   }
 
+
+  useEffect(() => {
+
   const getContract = () => {
     try {
       const { ethereum } = window
@@ -71,10 +74,8 @@ export default function App() {
       return null
     }
   }
-
-  useEffect(() => {
     getContract()
-  },[])
+  },[contractABI])
 
 
   return (
