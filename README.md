@@ -10,8 +10,7 @@ The contract stiil has a number of functions to facilitate viewing information. 
 
 Finally, the frontend contains a clean design where users can mint NFTS, when they're not sold out, see their gallery with the help of ***ipfs.io*** as the IPFS Gateway and a button to refresh the current account NFTs. Since we are using a public and free IPFS Gateway, our gallery is not the most reliable and image loading may fluctuate.
 
-The contract is deployed at Rinkeby at **0xE5e4D944e2256Fa5157bc3Df6deF34Ea4d280530**
-
+The contract is deployed at Goerli using QuickNodes at **0x3f205368FAD619c3A1160dba504e35400c771EB2** and verified with the source coede available in https://goerli.etherscan.io/address/0x3f205368FAD619c3A1160dba504e35400c771EB2#code
 The website is available at **https://lucasbraidalazypets.netlify.app/**
 
 
