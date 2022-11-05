@@ -8,8 +8,10 @@ import { ethers } from "ethers"
 export default function App() {
   // Constants
   const rinkebyChainId = "0x4"
+  const goerliChainId = '0x5'
   const [currentAccount, setCurrentAccount] = useState()
-  const contractAddress = '0xE5e4D944e2256Fa5157bc3Df6deF34Ea4d280530'
+  // const contractAddress = '0xAa549444AA2B71390b9d69668527fcBF7345866C'
+  const contractAddress = '0x3f205368FAD619c3A1160dba504e35400c771EB2'
   const contractABI = abi.abi
   const [contract, setContract] = useState()
 
@@ -23,8 +25,8 @@ export default function App() {
         return;
       }
       const chainId = await ethereum.request({ method: 'eth_chainId' })
-      if(chainId !== rinkebyChainId){
-        alert('You are not connected to the Rinkeby Test Network!')
+      if(chainId !== goerliChainId){
+        alert('You are not connected to the Goerli Test Network!')
         return
       }
       const accounts = await ethereum.request({ method: "eth_requestAccounts" });
@@ -90,7 +92,7 @@ export default function App() {
         </div>
         {!currentAccount ?
           <>
-            <p className='p-text'>Connect a Wallet using the Rinkeby testnet to check your NFTs or to mint a new one.</p>
+            <p className='p-text'>Connect a Wallet using the Goerli testnet to check your NFTs or to mint a new one.</p>
             <button className="cta-button connect-wallet-button button_hover" onClick={connectWallet}>
               Connect Wallet
             </button>

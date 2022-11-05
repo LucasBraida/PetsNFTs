@@ -1,7 +1,7 @@
 const main = async () => {
     const BASE_URI = "ipfs://QmVzmemPWrjoJNjvpLndtuVCHKKocrKk9uZCLxd29Sa2yH"
-    const TOKEN_NAME = "LBPetsNFTVRF";
-    const TOKEN_SYMBOL = "LBPETSVRF";
+    const TOKEN_NAME = "LazyPetsNFT";
+    const TOKEN_SYMBOL = "LzP";
     //const aNFT = ["Emma-GGIzi","Emma-JJ","Emma-MamaMeuGlubGlub","Emma-VidaIrada","Nick-GGIzi","Nick-JJ","Nick-MamaMeuGlubGlub","Nick-VidaIrada","Zeus-GGIzi","Zeus-JJ","Zeus-MamaMeuGlubGlub","Zeus-VidaIrada"];
     const aNFT = [
         'Emma-Dibs',
@@ -30,7 +30,7 @@ const main = async () => {
         'Zeus-WokeUpItWasTerrible'
       ]
     const nftContractFactory = await hre.ethers.getContractFactory('PetsNFTVRF');
-    const nftContract = await nftContractFactory.deploy(BASE_URI, TOKEN_NAME, TOKEN_SYMBOL, aNFT, 4545);
+    const nftContract = await nftContractFactory.deploy(BASE_URI, TOKEN_NAME, TOKEN_SYMBOL, aNFT, 6118);
     await nftContract.deployed();
     console.log("Contract deployed to:", nftContract.address);
 

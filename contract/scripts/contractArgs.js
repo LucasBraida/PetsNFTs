@@ -1,0 +1,33 @@
+module.exports = [
+    "ipfs://QmVzmemPWrjoJNjvpLndtuVCHKKocrKk9uZCLxd29Sa2yH",
+    "LazyPetsNFT",
+    "LzP",
+    [
+        'Emma-Dibs',
+        'Emma-MoveItOrLoseIt',
+        'Emma-NoSunshine',
+        'Emma-NotSuperstitious',
+        'Emma-Rise&Shine',
+        'Emma-TakeAChillPill',
+        'Emma-WaitLonger',
+        'Emma-WokeUpItWasTerrible',
+        'Nick-Dibs',
+        'Nick-MoveItOrLoseIt',
+        'Nick-NoSunshine',
+        'Nick-NotSuperstitious',
+        'Nick-Rise&Shine',
+        'Nick-TakeAChillPill',
+        'Nick-WaitLonger',
+        'Nick-WokeUpItWasTerrible',
+        'Zeus-Dibs',
+        'Zeus-MoveItOrLoseIt',
+        'Zeus-NoSunshine',
+        'Zeus-NotSuperstitious',
+        'Zeus-Rise&Shine',
+        'Zeus-TakeAChillPill',
+        'Zeus-WaitLonger',
+        'Zeus-WokeUpItWasTerrible'
+      ],
+      6118
+    
+]
