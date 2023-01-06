@@ -12,7 +12,7 @@ Finally, the frontend contains a clean design where users can mint NFTS, when th
 
 The contract is deployed at Goerli using QuickNodes at **0x3f205368FAD619c3A1160dba504e35400c771EB2** and verified with the source coede available in https://goerli.etherscan.io/address/0x3f205368FAD619c3A1160dba504e35400c771EB2#code
 
-The website is available at **https://lucasbraidalazypets.netlify.app/**
+The website is available at **https://lazypets.lucasbraida.com/**
 
 
 

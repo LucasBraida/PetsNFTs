@@ -7,10 +7,8 @@ import { ethers } from "ethers"
 
 export default function App() {
   // Constants
-  const rinkebyChainId = "0x4"
   const goerliChainId = '0x5'
   const [currentAccount, setCurrentAccount] = useState()
-  // const contractAddress = '0xAa549444AA2B71390b9d69668527fcBF7345866C'
   const contractAddress = '0x3f205368FAD619c3A1160dba504e35400c771EB2'
   const contractABI = abi.abi
   const [contract, setContract] = useState()
